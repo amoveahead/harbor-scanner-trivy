@@ -44,6 +44,12 @@ jobs:
         run: make lint
       - name: Run unit tests
         run: make test
+      - name: Test the integration guide's example
+        # A separate Go module (Temporal SDK): it must keep working with the API.
+        working-directory: docs/direct-scan/integration
+        run: |
+          go test -race ./...
+          ../../../bin/golangci-lint run ./...
       - name: Run integration tests
         run: make test-integration
       - name: Run component tests

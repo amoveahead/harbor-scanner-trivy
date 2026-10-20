@@ -229,7 +229,7 @@ Touched by this plan:
 - `pkg/http/api/server.go` (P11-1): the serve goroutine called `os.Exit(1)` when `ListenAndServe` returned `http.ErrServerClosed`, the normal result of `Shutdown` (inverted condition). It now exits only for other errors. Without the fix SIGTERM killed the process as soon as the HTTP server closed: no shutdown grace, no lease release (v2), no clean stop of the v1 Redis worker. `pkg/http/api/server_test.go` (empty upstream) has the regression test.
 - `Dockerfile` (P11-14): build arguments `WITH_SEED_DB` (default false) and `SEED_DB_REPOSITORY` (default `docker.io/aquasec/trivy-db:2`); with `WITH_SEED_DB=true` the build downloads the Trivy DB with the image's Trivy into `/home/scanner/seed/db`.
 - `Dockerfile`, `Dockerfile.dev` (P12-5): the hard-coded `ENV GOPROXY=<regional package mirror>` (from `0c87038`) is replaced by `ARG GOPROXY=https://proxy.golang.org,direct`; `Makefile` `docker-build` passes `GOPROXY` from the environment as a build argument when it is set.
-- `.github/workflows/build.yml` (P12-5): runs on pushes to every branch (was main only) and checks out the full history (`fetch-depth: 0`) for the lint comparison; all steps unchanged. `Makefile` (P12-5): `make lint` reports only issues on lines changed since `LINT_BASE` (default `2691434`, the upstream base).
+- `.github/workflows/build.yml` (P12-5): runs on pushes to every branch (was main only) and checks out the full history (`fetch-depth: 0`) for the lint comparison; one added step after the unit tests runs the tests and lint of the integration example module (P12-3); upstream's steps unchanged. `Makefile` (P12-5): `make lint` reports only issues on lines changed since `LINT_BASE` (default `2691434`, the upstream base).
 - `Makefile` (P11-7): `make setup` installs golangci-lint v2.15.0 instead of v1.21.0 (which cannot load Go 1.26 code).
 - `pkg/trivy/wrapper.go` (P10-5): the "FULL TRIVY REPORT" debug log (added in `0c87038`) is removed; the other debug logs of that commit stay. `pkg/trivy/wrapper_test.go` (P10-5): `TestWrapper_Scan` checks that the line is not logged.
 - `cmd/scanner-trivy/main.go` (P10-2): uses `service.Routes(v1)` instead of building the mux itself.
@@ -249,6 +249,14 @@ Touched by this plan:
 - Decisions / surprises: ...
 - Next: <next task ID>
 ```
+
+### 2026-10-20  P12-3  CI step for the integration example
+- Status: done (owner)
+- What changed: `.github/workflows/build.yml` has a separate step after "Run unit tests": in `docs/direct-scan/integration`, `go test -race ./...` and `../../../bin/golangci-lint run ./...`, so the guide's example breaks the build when the API changes. The workflow ignores pushes that change only `docs/**`, so a commit that touches nothing but the example module does not trigger CI; changes to the scanner's code do.
+- Files: `.github/workflows/build.yml`
+- Tests run: actionlint and yamllint on the workflow -> ok; the step's two commands locally (without a custom `GOPROXY`) -> ok, 0 issues.
+- Decisions / surprises: the owner is pushing the branch `ci-check` for the first CI run (before this commit); failures will be pasted.
+- Next: P12-2
 
 ### 2026-10-20  P12-3  Integration guide for a Temporal activity
 - Status: done
