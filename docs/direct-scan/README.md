@@ -88,6 +88,20 @@ Measured scans (empty worker cache for each backend; the second image shares 4 o
 
 `fs` is the default: an image that shares base layers with one scanned before is much faster, and it used less memory. `memory` stays an option when nothing of the layer cache may be written to disk.
 
+## Monitoring
+
+Scrape `/metrics` of every replica (same port as the API, no token; keep it internal) and load [alerts/scanner-v2.rules.yaml](alerts/scanner-v2.rules.yaml):
+
+| Alert | Fires when | Severity |
+|---|---|---|
+| `ScannerV2MongoDown` | `scanner_v2_mongo_up == 0` for 2m | critical |
+| `ScannerV2DBDegraded` | a DB updater in degraded mode for 15m | warning |
+| `ScannerV2NewerDBNotInstalled` | a newer DB known but not installed for 1h | warning |
+| `ScannerV2QueueStuck` | the oldest queued scan older than 10m for 5m (once per job) | warning |
+| `ScannerV2HighScanFailureRate` | more than half of a replica's scans of the last 30m failed (at least 10 scans) for 10m | warning |
+
+The queue threshold matches `SCANNER_HEALTH_QUEUE_STUCK_AFTER` (10m); change both together. The rules have promtool tests: `promtool test rules alerts/scanner-v2.rules.test.yaml`.
+
 ## Compose example
 
 [compose/docker-compose.yaml](compose/docker-compose.yaml) runs two scanner replicas and MongoDB 7: an explicit `SCANNER_INSTANCE_ID` per replica, `stop_grace_period: 45s` (longer than `SCANNER_SHUTDOWN_GRACE`, 30s, so running scans can finish or be released), `dns:`, a healthcheck on `/probe/ready`, the image's non-root user, a memory limit, and the secrets in `.env` ([compose/.env.example](compose/.env.example)). The hostnames and DNS addresses in it are placeholders.

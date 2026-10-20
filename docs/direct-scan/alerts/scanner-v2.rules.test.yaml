@@ -1,0 +1,124 @@
+---
+# promtool test rules scanner-v2.rules.test.yaml
+rule_files:
+  - scanner-v2.rules.yaml
+
+evaluation_interval: 1m
+
+tests:
+  - name: MongoDB down for 2 minutes
+    interval: 1m
+    input_series:
+      - series: 'scanner_v2_mongo_up{job="scanner", instance="scanner-1:8080"}'
+        values: '1 0 0 0 0 0'
+      - series: 'scanner_v2_mongo_up{job="scanner", instance="scanner-2:8080"}'
+        values: '1 1 1 1 1 1'
+    alert_rule_test:
+      - eval_time: 2m
+        alertname: ScannerV2MongoDown
+        exp_alerts: []
+      - eval_time: 4m
+        alertname: ScannerV2MongoDown
+        exp_alerts:
+          - exp_labels:
+              severity: critical
+              job: scanner
+              instance: scanner-1:8080
+            exp_annotations:
+              summary: "Scanner scanner-1:8080 cannot reach MongoDB"
+              description: "The v2 API answers 503 and no scan runs on this replica until MongoDB is back."
+
+  - name: DB degraded for 15 minutes
+    interval: 1m
+    input_series:
+      - series: 'scanner_v2_db_degraded{job="scanner", instance="scanner-1:8080", db="db"}'
+        values: '0 1x20'
+      - series: 'scanner_v2_db_degraded{job="scanner", instance="scanner-1:8080", db="java-db"}'
+        values: '0x20'
+    alert_rule_test:
+      - eval_time: 10m
+        alertname: ScannerV2DBDegraded
+        exp_alerts: []
+      - eval_time: 17m
+        alertname: ScannerV2DBDegraded
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+              job: scanner
+              instance: scanner-1:8080
+              db: db
+            exp_annotations:
+              summary: "Scanner scanner-1:8080: db updates are failing"
+              description: "The db updater is in degraded mode (retrying every SCANNER_DB_RETRY_INTERVAL). Check the DB sources: GET /api/v2/db shows the failure class of each source."
+
+  - name: a newer DB not installed for more than 1 hour
+    interval: 1m
+    input_series:
+      - series: 'scanner_v2_db_newer_available{job="scanner", instance="scanner-1:8080", db="db"}'
+        values: '1x70'
+    alert_rule_test:
+      - eval_time: 59m
+        alertname: ScannerV2NewerDBNotInstalled
+        exp_alerts: []
+      - eval_time: 61m
+        alertname: ScannerV2NewerDBNotInstalled
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+              job: scanner
+              instance: scanner-1:8080
+              db: db
+            exp_annotations:
+              summary: "Scanner scanner-1:8080: a newer db is available but not installed"
+              description: "Results are marked stale until it is installed. Check the DB sources and the disk space of SCANNER_V2_CACHE_DIR."
+
+  - name: queue stuck, once per job although both replicas report it
+    interval: 1m
+    input_series:
+      - series: 'scanner_v2_queue_oldest_age_seconds{job="scanner", instance="scanner-1:8080"}'
+        values: '700+60x10'
+      - series: 'scanner_v2_queue_oldest_age_seconds{job="scanner", instance="scanner-2:8080"}'
+        values: '700+60x10'
+      - series: 'scanner_v2_queue_oldest_age_seconds{job="other", instance="other-1:8080"}'
+        values: '30x10'
+    alert_rule_test:
+      - eval_time: 3m
+        alertname: ScannerV2QueueStuck
+        exp_alerts: []
+      - eval_time: 6m
+        alertname: ScannerV2QueueStuck
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+              job: scanner
+            exp_annotations:
+              summary: "The scan queue is not moving"
+              description: "The oldest queued scan has waited 17m 40s. Check that workers run (GET /api/v2/health) and the scan durations."
+
+  - name: high scan failure rate, only with enough scans
+    interval: 1m
+    input_series:
+      # scanner-1: 1 done and 2 failed scans per minute.
+      - series: 'scanner_v2_scans_total{job="scanner", instance="scanner-1:8080", result="done"}'
+        values: '0+1x60'
+      - series: 'scanner_v2_scans_total{job="scanner", instance="scanner-1:8080", result="failed"}'
+        values: '0+2x60'
+      # scanner-2: every scan failed, but only 3 scans, all within the window.
+      - series: 'scanner_v2_scans_total{job="scanner", instance="scanner-2:8080", result="done"}'
+        values: '0x60'
+      - series: 'scanner_v2_scans_total{job="scanner", instance="scanner-2:8080", result="failed"}'
+        values: '0x40 1 2 3x18'
+      # Cache hits do not count.
+      - series: 'scanner_v2_scans_total{job="scanner", instance="scanner-2:8080", result="hit"}'
+        values: '0+10x60'
+    alert_rule_test:
+      # scanner-2's failures (from 41m) last long enough to fire without the minimum volume.
+      - eval_time: 55m
+        alertname: ScannerV2HighScanFailureRate
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+              instance: scanner-1:8080
+            exp_annotations:
+              summary: "Scanner scanner-1:8080: most scans fail"
+              description: "66.67% of the scans of the last 30 minutes failed. GET /api/v2/scans?state=failed shows the failure classes."

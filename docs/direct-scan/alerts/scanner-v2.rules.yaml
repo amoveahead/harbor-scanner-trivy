@@ -1,0 +1,63 @@
+---
+# Prometheus alert rules for the v2 direct scan service (DEMAND section 12).
+# Load with `rule_files:` in prometheus.yml. Tests: scanner-v2.rules.test.yaml
+# (`promtool test rules scanner-v2.rules.test.yaml`).
+groups:
+  - name: scanner-v2
+    rules:
+      - alert: ScannerV2MongoDown
+        # From the replica's 5 s background ping; the replica is not ready while it lasts.
+        expr: scanner_v2_mongo_up == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Scanner {{ $labels.instance }} cannot reach MongoDB"
+          description: "The v2 API answers 503 and no scan runs on this replica until MongoDB is back."
+
+      - alert: ScannerV2DBDegraded
+        # No DB source answered, or a newer DB could not be installed. Scans go on with the existing DB.
+        expr: scanner_v2_db_degraded == 1
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Scanner {{ $labels.instance }}: {{ $labels.db }} updates are failing"
+          description: "The {{ $labels.db }} updater is in degraded mode (retrying every SCANNER_DB_RETRY_INTERVAL). Check the DB sources: GET /api/v2/db shows the failure class of each source."
+
+      - alert: ScannerV2NewerDBNotInstalled
+        expr: scanner_v2_db_newer_available == 1
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "Scanner {{ $labels.instance }}: a newer {{ $labels.db }} is available but not installed"
+          description: "Results are marked stale until it is installed. Check the DB sources and the disk space of SCANNER_V2_CACHE_DIR."
+
+      - alert: ScannerV2QueueStuck
+        # Every replica reports the same queue figures (read from MongoDB): alert once per job.
+        # 600 s matches SCANNER_HEALTH_QUEUE_STUCK_AFTER (default 10m); keep them in sync.
+        expr: max by (job) (scanner_v2_queue_oldest_age_seconds) > 600
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "The scan queue is not moving"
+          description: "The oldest queued scan has waited {{ $value | humanizeDuration }}. Check that workers run (GET /api/v2/health) and the scan durations."
+
+      - alert: ScannerV2HighScanFailureRate
+        # More than half of the scans of the last 30 minutes failed, with at least 10 scans.
+        expr: |
+          (
+            sum by (instance) (increase(scanner_v2_scans_total{result="failed"}[30m]))
+            /
+            sum by (instance) (increase(scanner_v2_scans_total{result=~"done|failed"}[30m]))
+          ) > 0.5
+          and
+          sum by (instance) (increase(scanner_v2_scans_total{result=~"done|failed"}[30m])) >= 10
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Scanner {{ $labels.instance }}: most scans fail"
+          description: "{{ $value | humanizePercentage }} of the scans of the last 30 minutes failed. GET /api/v2/scans?state=failed shows the failure classes."

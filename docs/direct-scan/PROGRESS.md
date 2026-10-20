@@ -6,9 +6,9 @@ Newest changelog entries go at the top of the Changelog.
 ## Current state
 
 - Phase: 12 (staging and integration)
-- Last completed task: P12-3
+- Last completed task: P12-2
 - In progress: none
-- Next task: P12-2, then P12-6, P12-1, P12-4 (report after each)
+- Next task: P12-6, then P12-1, P12-4 (report after each); the owner's first CI run on branch `ci-check` may need fixes
 - Blockers / questions for the user: none
 - Last updated: 2026-10-20
 
@@ -249,6 +249,14 @@ Touched by this plan:
 - Decisions / surprises: ...
 - Next: <next task ID>
 ```
+
+### 2026-10-20  P12-2  Prometheus alert rules
+- Status: done
+- What changed: new `docs/direct-scan/alerts/scanner-v2.rules.yaml` (group `scanner-v2`): `ScannerV2MongoDown` (`scanner_v2_mongo_up == 0` for 2m, critical), `ScannerV2DBDegraded` (`scanner_v2_db_degraded == 1` for 15m, one retry interval), `ScannerV2NewerDBNotInstalled` (`scanner_v2_db_newer_available == 1` for 1h), `ScannerV2QueueStuck` (`max by (job)` of `scanner_v2_queue_oldest_age_seconds` > 600 for 5m: every replica reports the same queue figures, so one alert per job; 600 s = `SCANNER_HEALTH_QUEUE_STUCK_AFTER`), `ScannerV2HighScanFailureRate` (per instance, failed / (done + failed) over 30m > 0.5 with at least 10 scans, for 10m; cache hits do not count); each with a summary and a description that points to the API endpoint to check. New `scanner-v2.rules.test.yaml` (promtool unit tests): MongoDB down fires only after 2m and only for the replica that lost it; DB degraded not at 10m, fires at 17m for the `db` kind only; newer DB not at 59m, fires at 61m; queue stuck not at 3m, fires at 6m once for the job (two replicas reporting) and not for another job with a short queue, with the age in the description; failure rate fires for the replica with 2 of 3 scans failed (66.67%) and not for the one with only 3 (all failed) scans. README section "Monitoring".
+- Files: `docs/direct-scan/alerts/{scanner-v2.rules.yaml,scanner-v2.rules.test.yaml}`, `docs/direct-scan/README.md`
+- Tests run: `promtool check rules` and `promtool test rules` (from `prom/prometheus:v2.55.1`) -> SUCCESS; yamllint -> ok. Mutation check: with the MongoDB wait shortened to 1m and the minimum volume lowered to 1, the tests fail on both (the first version of the low-volume case did not catch it because its failures were outside the window; fixed).
+- Decisions / surprises: the waits for MongoDB down (2m) and DB degraded (15m) are our proposal (the owner gave only the 1h for a newer DB). The rules are not run by CI; a promtool step can be added if wanted.
+- Next: P12-6
 
 ### 2026-10-20  P12-3  CI step for the integration example
 - Status: done (owner)
