@@ -7,10 +7,21 @@ Newest changelog entries go at the top of the Changelog.
 
 - Phase: 12 (staging and integration)
 - Last completed task: P12-2
-- In progress: none
-- Next task: P12-6, then P12-1, P12-4 (report after each); the owner's first CI run on branch `ci-check` may need fixes
-- Blockers / questions for the user: none
-- Last updated: 2026-10-20
+- In progress: P12-7 admin panel (stopped by the owner on 2026-11-09). P12-1 compose is written (`compose/compose.yaml`, the old `docker-compose.yaml` removed) and runs; its full verification is still open
+- NO COMMITS: since 2026-11-09 the owner reviews and commits himself. Everything below is in the working tree only: `admin-panel/`, `docs/direct-scan/compose/{compose.yaml,gen-env.sh,.env.example,.gitignore}`
+- Next task: P12-8 (platform combo box; needs the owner's OK on `GET /api/v2/platforms`), finish P12-7 (Temporal look), then P12-6, P12-1 verification, P12-4
+- P12-7 handoff, the Temporal UI look. The tokens were read from temporalio/ui main (`src/lib/theme/io/themes/theme-{dark,light}.ts`, `primitives.ts`, holocene `table.svelte`, `button.svelte`, `input.svelte`, `card.svelte`, `io/badge/recipe.ts`, `navigation-*.svelte`); a sparse clone may still be in the session scratchpad.
+  - Dark: page `#111111`; surfaces `#191919` / `#222222` / `#2a2a2a`; text `#fbfbfa` / `#c3c2bb` / `#97918f`; brand text `#8da4ef`; border `rgba(117,111,109,.3)`; primary button `#3a5bc7`, hover `#3358d4`; active nav `rgba(62,99,221,.2)`.
+  - Light: page `#ffffff`; surfaces `#fbfbfa` / `#f7f7f5` / `#f0efec`; text `#1e1d1b` / `#544e4c`; brand `#3e63dd`; border `rgba(117,111,109,.2)`; primary button `#3e63dd`, hover `#3358d4`.
+  - Badges: 1px border, text-xs, py-0.5, px-1.5, rounded. Dark text/background: success `#8eceaa`/`#193b2d`, info `#8ec8f6`/`#113264`, warning `#e9c162`/`#4f3422`, danger `#f4a9aa`/`#641723`. Light: success `#193b2d`/`#d6f1df`, info `#113264`/`#d5efff`, warning `#4f3422`/`#ffee9c`, danger `#641723`/`#ffdbdc`. Borders: the scale-9 colour at 70% (dark) or 60% (light).
+  - Layout: top nav 3rem with a bottom border; side nav 16rem (3rem collapsed), surface background, right border; nav items rounded, px-2 py-1, text-sm medium, secondary text, active = brand text on the indigo overlay.
+  - Cards: surface, 1px border, rounded-lg, p-4.
+  - Tables: rounded-lg bordered container; header on surface-secondary, h-9, text-sm medium, no uppercase, px-2; rows h-8, even rows overlaid, hover overlay, nowrap.
+  - Buttons: rounded, h-10 (sm h-9), focus ring 2px brand with 2px offset. Inputs: rounded, border, page background, h-10, same ring.
+  - Not found in the source: the font family.
+- Stack state left running: compose stack up (2 scanners, mongo, redis, admin on 127.0.0.1:8088), plus an orphan throwaway `registry:2` used for the demo scans (`docker compose up -d --remove-orphans` removes it). The owner is filling in `.env` (real registry); six demo scans of library/* images are in MongoDB
+- Blockers / questions for the user: the `GET /api/v2/platforms` endpoint for P12-8
+- Last updated: 2026-11-09
 
 ## Repo facts (filled in by Phase 0)
 
@@ -249,6 +260,22 @@ Touched by this plan:
 - Decisions / surprises: ...
 - Next: <next task ID>
 ```
+
+### 2026-11-09  P12-7  Admin panel, compose stack, gen-env.sh (partial, not committed)
+- Status: partial (stopped by the owner; pending his review, no commits)
+- What changed:
+  - New `admin-panel/`: React 18 + Vite 6 + TypeScript, static build. A Dockerfile in the owner's template: node:22-alpine build, then nginx:mainline-alpine serving `dist`. nginx proxies `/api/` and `/probe/` to `API_URL`, with the Docker DNS resolver so recreated scanners are found. The API token is kept in sessionStorage only.
+  - Pages: Overview, Scans, scan detail, DBs, and API (endpoint list, probes, console, error codes).
+  - Styles: the hospital app's CSS copied into `src/hospital/`, plus `src/panel.css` (left-to-right fixes, a Harbor/Trivy colour layer, hover glow, rounded cards).
+  - `docs/direct-scan/compose/compose.yaml` replaces `docker-compose.yaml`, with the `admin` service and the Liara mirrors in `.env.example`.
+  - New `compose/gen-env.sh`: generates the token and Mongo password, asks for the registry, escapes `$` as `$$`, mode 600, `-f` keeps `.env.bak`. `.env.bak` is gitignored.
+- Files: `admin-panel/**`, `docs/direct-scan/compose/{compose.yaml,gen-env.sh,.env.example,.gitignore}`, `docker-compose.yaml` (deleted)
+- Tests run:
+  - `npm run build` (tsc + vite) -> ok. Headless Chrome screenshots of every page, dark, light and phone width -> ok. No unit tests for the panel.
+  - gen-env.sh on a scratch copy: env-var mode, prompts, refusing to overwrite, `-f` backup, bad URL -> ok. A container received `robot$scanner` and a password with `$&/\` unchanged. shellcheck is not installed.
+  - Stack: two replicas healthy; six scans of library/* images through a throwaway local registry -> done; a repeated request -> 200 cache hit.
+- Decisions / surprises: the hospital CSS has `.card-body--flush` before `.card-body`, so it never applied; worked around in panel.css. The Vazirmatn-FD font was left out (Persian digits). The owner then asked for an exact Temporal UI look (tokens in "Current state") and a platform combo box (P12-8, needs a new endpoint); stopped there on his request.
+- Next: P12-8 after the owner's OK, then finish P12-7
 
 ### 2026-10-20  P12-2  Prometheus alert rules
 - Status: done

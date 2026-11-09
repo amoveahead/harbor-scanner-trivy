@@ -1,0 +1,84 @@
+/* ========================================================================
+   Component: Patient Summary Box
+   ------------------------------------------------------------------------
+   A themed card displaying key patient data in a responsive grid.
+   Structure:
+     .patient-summary (.theme-summary-box)
+       .summary-item  ×N
+         <strong>  (label)
+         <span>     (value)
+   ======================================================================== */
+
+/* --------------- Box --------------- */
+.patient-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem 1rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem 1.25rem;
+    margin-block-end: 1.25rem;
+    box-shadow: var(--shadow-md);
+    transition:
+        background var(--transition-speed) ease,
+        border-color var(--transition-speed) ease;
+}
+
+/* --------------- Individual item (label : value pair) --------------- */
+.summary-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    padding: 0.45rem 0.65rem;
+    background: var(--fieldset-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius-md);
+    transition:
+        border-color var(--transition-speed) ease,
+        box-shadow  var(--transition-speed) ease;
+}
+
+/* Hover glow on each item */
+.summary-item:hover {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 8px var(--accent-primary-muted);
+}
+
+/* Label */
+.summary-item strong {
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+/* Value */
+.summary-item span {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    word-break: break-word;
+}
+
+/* Placeholder "---" styling */
+.summary-item span:empty::before,
+.summary-item span:-moz-only-whitespace::before {
+    content: "---";
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+/* --------------- Responsive --------------- */
+@media (max-width: 768px) {
+    .patient-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .patient-summary {
+        grid-template-columns: 1fr;
+    }
+}

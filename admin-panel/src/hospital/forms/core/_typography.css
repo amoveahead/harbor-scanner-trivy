@@ -1,0 +1,32 @@
+/* ========================================================================
+   Forms / Core / Typography
+   ------------------------------------------------------------------------
+   Font sizing, weight, color and line-height for form text.
+   ======================================================================== */
+
+/* --------------- Label --------------- */
+.form-label {
+    font-size: var(--form-label-size);
+    font-weight: 500;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* --------------- Legend --------------- */
+legend {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+}
+
+/* --------------- Input text --------------- */
+.custom-input-field {
+    font-size: var(--form-ctl-font-size);
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+/* --------------- Auth-page label --------------- */
+.auth-label {
+    font-weight: 600;
+}

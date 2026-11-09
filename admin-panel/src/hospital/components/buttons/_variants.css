@@ -1,0 +1,162 @@
+/* ========================================================================
+   Buttons: Variants & Themes
+   ------------------------------------------------------------------------
+   Colors and focus rings synced with form focus and error states.
+   ======================================================================== */
+
+/* --- Solid Buttons --- */
+
+.btn-primary {
+    background-color: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: var(--accent-text);
+}
+.btn-primary:hover {
+    background-color: var(--accent-primary-hover);
+    border-color: var(--accent-primary-hover);
+    box-shadow: 0 4px 12px var(--accent-primary-muted); /* Soft glow match */
+}
+.btn-primary:focus-visible {
+    box-shadow: 0 0 0 3px var(--accent-primary-muted);
+    outline: none;
+}
+
+.btn-secondary {
+    background-color: var(--bg-surface-hover);
+    border-color: var(--border);
+    color: var(--text-secondary);
+}
+.btn-secondary:hover {
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+    background-color: var(--bg-surface-hover);
+}
+.btn-secondary:focus-visible {
+    /* Matches a neutral focus ring */
+    box-shadow: 0 0 0 3px var(--border);
+    outline: none;
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    border-color: var(--danger);
+    color: var(--danger-text);
+}
+.btn-danger:hover {
+    background-color: color-mix(in srgb, var(--danger) 85%, #000);
+    border-color: color-mix(in srgb, var(--danger) 85%, #000);
+    box-shadow: 0 4px 12px var(--danger-bg-subtle);
+}
+.btn-danger:focus-visible {
+    /* Matches form error state focus */
+    box-shadow: 0 0 0 3px var(--danger-bg-subtle);
+    outline: none;
+}
+
+.btn-success {
+    background-color: var(--success, #28a745);
+    border-color: var(--success, #28a745);
+    color: #fff;
+}
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+.btn-success:focus-visible {
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.3);
+    outline: none;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    color: #ffffff;
+}
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+}
+.btn-info:focus-visible {
+    box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.3);
+    outline: none;
+}
+
+/* ========================================================================
+   Buttons: Finalized Outline Variants
+   ======================================================================== */
+
+/* --- 1. Global Icon Sync (Ensures all outline icons follow their text color) --- */
+.btn[class*="btn-outline-"] svg.feather {
+    stroke: currentColor;
+    transition: stroke 0.2s ease-in-out;
+}
+
+/* --- 2. Primary --- */
+.btn.btn-outline-primary {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+.btn.btn-outline-primary:hover {
+    background-color: var(--accent-primary);
+}
+
+/* --- 3. Success (Explicit stroke fix included) --- */
+.btn.btn-outline-success {
+    border-color: #28a745;
+    color: #28a745;
+}
+/* This specific targeting outranks the card-header/toolbar defaults */
+.btn.btn-outline-success svg.feather {
+    stroke: #28a745;
+}
+.btn.btn-outline-success:hover {
+    background-color: #28a745;
+}
+
+/* --- 4. Danger --- */
+.btn.btn-outline-danger {
+    border-color: var(--accent-danger); 
+    color: var(--accent-danger);
+}
+.btn.btn-outline-danger:hover {
+    background-color: var(--accent-danger);
+}
+
+/* --- 5. Secondary --- */
+.btn.btn-outline-secondary {
+    border-color: var(--accent-secondary); 
+    color: var(--accent-secondary);
+}
+.btn.btn-outline-secondary:hover {
+    background-color: var(--accent-secondary);
+}
+
+/* --- 6. The Unified Hover State (Blackout) --- */
+/* Targets button, any span inside, and the SVG icon */
+.btn[class*="btn-outline-"]:hover,
+.btn[class*="btn-outline-"]:hover span,
+.btn[class*="btn-outline-"]:hover svg.feather {
+    color: #ffffff; /* Or var(--bg-surface) if you want it theme-adaptive */
+    stroke: #ffffff;
+}
+
+/* --- 7. Info --- */
+.btn.btn-outline-info {
+    border-color: #17a2b8;
+    color: #17a2b8;
+}
+
+/* Ensures feather icons match */
+.btn.btn-outline-info svg.feather {
+    stroke: #17a2b8;
+}
+
+.btn.btn-outline-info:hover {
+    background-color: #17a2b8;
+}
+
+/* Optional focus style to match your old button */
+.btn.btn-outline-info:focus-visible {
+    box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.3);
+    outline: none;
+}

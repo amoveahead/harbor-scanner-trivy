@@ -1,0 +1,120 @@
+/* ========================================================================
+   Layout: Core Structure & Grids
+   ======================================================================== */
+.app-layout {
+    display: flex;
+}
+
+.app-content {
+    flex-grow: 1;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.main-content-area {
+    padding: 2.5rem;
+    padding-bottom: 120px; /* Space for FABs */
+    flex-grow: 1;
+    overflow-y: auto;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.main-content-area.content-fade-out {
+    opacity: 0;
+}
+
+/* Grids */
+.grid-container,
+.detail-grid {
+    display: grid;
+    gap: 1rem 1.5rem;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+    .grid-container, .detail-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1200px) {
+    .grid-container, .detail-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 1600px) {
+    .grid-container, .detail-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 992px) {
+    .main-content-area {
+        padding: 1.5rem;
+    }
+}
+/* ========================================================================
+   Telegram-Style Chaotic Medical Doodle Background (Multi-Color Palette)
+   ======================================================================== */
+
+/* * Base Pattern Background (Light Mode Default)
+ * Using a slightly darker background for light mode to create better depth.
+ */
+body:not([data-theme="dark"]) .pattern-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: calc(100vw + 250px); 
+    height: calc(100vh + 250px); 
+    
+    /* * A much softer, darker gray-blue instead of harsh white/light gray */
+    background-color: #d0d7e1; 
+    z-index: -1; 
+    
+    /* * Light Mode Multi-Color SVG */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23005a9c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M120 250 l30-30 m-20-10 l10 10 m-25 25 l30-30 m-35 35 l-15 15 m-5-5 l10 10 m0-10 l-5 5 M400 250 q20 20 40 0 t40 0 t40 0 m-120 15 q20-20 40 0 t40 0 t40 0 m-110-10 v15 m20-15 v15 m20-15 v15 m20-15 v15 M450 450 a20 20 0 0 1 40 0 v20 a20 20 0 0 1-40 0z m20 40 c0 30-40 30-40 50 v10 m-10 0 h20 M150 500 h4 m-2-2 v4 M350 350 h8 m-4-4 v8 M550 150 h5 m-2.5-2.5 v5 M200 400 a15 15 0 0 0 30 0 a15 15 0 0 0-30 0 m15-15 q5-10 15-5 M300 200 q10-10 20 0 t20 0 t20 0 M100 350 q8-8 16 0 t16 0 M500 50 q5-5 10 0 t10 0 M20 280 q10-10 20 0 t20 0 M520 200 l8-8 m0 8 l-8-8'/%3E%3Ccircle cx='20' cy='80' r='1.5'/%3E%3Ccircle cx='580' cy='400' r='2'/%3E%3Ccircle cx='180' cy='180' r='1.5'/%3E%3Ccircle cx='280' cy='280' r='2'/%3E%3Ccircle cx='480' cy='300' r='1.5'/%3E%3Ccircle cx='380' cy='120' r='1'/%3E%3Ccircle cx='100' cy='520' r='2'/%3E%3C/g%3E%3Cg fill='none' stroke='%23dc3545' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M450 100 h8 v-8 h8 v8 h8 v8 h-8 v8 h-8 v-8 h-8z M250 80 h10 l5-10 l10 25 l10-35 l10 20 h15 M250 480 h10 v-10 h10 v10 h10 v10 h-10 v10 h-10 v-10 h-10z M550 350 h10 l5-10 l10 25 l10-35 l10 20 h15 M50 200 h6 m-3-3 v6 M80 550 l4 4 m0-4 l-4 4 M300 550 l6 6 m0-6 l-6 6'/%3E%3C/g%3E%3Cg fill='none' stroke='%230f766e' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M100 100 l15-15 a10 10 0 0 1 14 14 l-15 15 a10 10 0 0 1-14-14z M107 107 l14 14 M50 400 l10-10 l5 15 l10-20 l10 15 h10 M500 550 l15-15 a10 10 0 0 1 14 14 l-15 15 a10 10 0 0 1-14-14z M507 557 l14 14 M350 80 l15-15 a8 8 0 0 1 12 12 l-15 15 a8 8 0 0 1-12-12z M356 86 l12 12 M350 450 v-20 h30 v40 h-30z m5-25 h20 m-10 0 v5 m-10 10 h20 m-20 5 h15 M150 300 v-20 a5 5 0 0 1 10 0 v20 a8 8 0 1 1-10 0z m5-15 v15'/%3E%3C/g%3E%3C/svg%3E");
+    
+    background-repeat: repeat; 
+    background-size: 250px; 
+    
+    /* * Drastically increased opacity so the lines are clearly visible */
+    opacity: 0.5; 
+    
+    animation: pan-pattern 80s linear infinite;
+    will-change: transform;
+}
+/* * Dark Mode Overrides
+ * Uses a vibrant neon-pastel palette suited for dark backgrounds
+ */
+body[data-theme="dark"] .pattern-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: calc(100vw + 250px); 
+    height: calc(100vh + 250px); 
+    
+    /* * Deep dark background syncs with your variables */
+    background-color: var(--bg-main); 
+    z-index: -1; 
+    
+    /* * Dark Mode Multi-Color SVG:
+     * Group 1 (Blue): %234a90e2
+     * Group 2 (Pink/Red): %23ff5252
+     * Group 3 (Cyan/Teal): %232dd4bf
+     */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%234a90e2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M120 250 l30-30 m-20-10 l10 10 m-25 25 l30-30 m-35 35 l-15 15 m-5-5 l10 10 m0-10 l-5 5 M400 250 q20 20 40 0 t40 0 t40 0 m-120 15 q20-20 40 0 t40 0 t40 0 m-110-10 v15 m20-15 v15 m20-15 v15 m20-15 v15 M450 450 a20 20 0 0 1 40 0 v20 a20 20 0 0 1-40 0z m20 40 c0 30-40 30-40 50 v10 m-10 0 h20 M150 500 h4 m-2-2 v4 M350 350 h8 m-4-4 v8 M550 150 h5 m-2.5-2.5 v5 M200 400 a15 15 0 0 0 30 0 a15 15 0 0 0-30 0 m15-15 q5-10 15-5 M300 200 q10-10 20 0 t20 0 t20 0 M100 350 q8-8 16 0 t16 0 M500 50 q5-5 10 0 t10 0 M20 280 q10-10 20 0 t20 0 M520 200 l8-8 m0 8 l-8-8'/%3E%3Ccircle cx='20' cy='80' r='1.5'/%3E%3Ccircle cx='580' cy='400' r='2'/%3E%3Ccircle cx='180' cy='180' r='1.5'/%3E%3Ccircle cx='280' cy='280' r='2'/%3E%3Ccircle cx='480' cy='300' r='1.5'/%3E%3Ccircle cx='380' cy='120' r='1'/%3E%3Ccircle cx='100' cy='520' r='2'/%3E%3C/g%3E%3Cg fill='none' stroke='%23ff5252' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M450 100 h8 v-8 h8 v8 h8 v8 h-8 v8 h-8 v-8 h-8z M250 80 h10 l5-10 l10 25 l10-35 l10 20 h15 M250 480 h10 v-10 h10 v10 h10 v10 h-10 v10 h-10 v-10 h-10z M550 350 h10 l5-10 l10 25 l10-35 l10 20 h15 M50 200 h6 m-3-3 v6 M80 550 l4 4 m0-4 l-4 4 M300 550 l6 6 m0-6 l-6 6'/%3E%3C/g%3E%3Cg fill='none' stroke='%232dd4bf' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M100 100 l15-15 a10 10 0 0 1 14 14 l-15 15 a10 10 0 0 1-14-14z M107 107 l14 14 M50 400 l10-10 l5 15 l10-20 l10 15 h10 M500 550 l15-15 a10 10 0 0 1 14 14 l-15 15 a10 10 0 0 1-14-14z M507 557 l14 14 M350 80 l15-15 a8 8 0 0 1 12 12 l-15 15 a8 8 0 0 1-12-12z M356 86 l12 12 M350 450 v-20 h30 v40 h-30z m5-25 h20 m-10 0 v5 m-10 10 h20 m-20 5 h15 M150 300 v-20 a5 5 0 0 1 10 0 v20 a8 8 0 1 1-10 0z m5-15 v15'/%3E%3C/g%3E%3C/svg%3E");
+    
+    background-repeat: repeat; 
+    background-size: 250px; 
+    opacity: 0.15; 
+    
+    animation: pan-pattern 80s linear infinite;
+    will-change: transform;
+}
+
+/* * Smooth diagonal panning loop 
+ * Shared by both themes
+ */
+@keyframes pan-pattern {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-250px, -250px, 0);
+    }
+}

@@ -1,0 +1,113 @@
+/* ========================================================================
+   Layout: App Header
+   ======================================================================== */
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    height: 65px;
+    /* Sidebar-matching glassmorphic surface */
+    background-color: color-mix(in srgb, var(--bg-surface) 78%, transparent);
+    background-image:
+        radial-gradient(1200px 600px at 20% 0%, color-mix(in srgb, var(--accent-primary) 12%, transparent), transparent 60%),
+        linear-gradient(180deg, color-mix(in srgb, var(--bg-surface-hover) 55%, transparent), transparent 55%);
+    border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+    border-radius: 0 0 0 0;
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 900;
+}
+
+#sidebar-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: all var(--transition-speed) ease;
+}
+
+#sidebar-toggle:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+}
+
+/* Use FAB buttons inside the header (compact) */
+.app-header .fab-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    box-shadow: none;
+}
+
+.app-header .fab-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.header-actions .btn {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.header-actions .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Search Form */
+.search-form-container {
+    position: relative;
+    flex-grow: 1;
+    max-width: 450px;
+}
+.search-form-container .form-control {
+    padding-left: 2.75rem;
+    height: calc(2.25rem + 2px);
+}
+.search-icon-btn {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.search-icon-btn:hover {
+    color: var(--accent-primary);
+}

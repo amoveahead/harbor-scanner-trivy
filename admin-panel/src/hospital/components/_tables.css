@@ -1,0 +1,56 @@
+/* ========================================================================
+   Components: Tables & Data Grids
+   ======================================================================== */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+.table th,
+.table td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    text-align: right;
+    vertical-align: middle;
+}
+
+.table thead th {
+    font-weight: 600;
+    color: var(--text-secondary);
+    background-color: var(--bg-main);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table tbody tr:hover {
+    background-color: var(--bg-surface-hover);
+}
+
+/* Specific Column Widths */
+.table .col-main { width: 100%; }
+.table .col-fixed { width: 1%; white-space: nowrap; }
+.col-patient { width: 14%; }
+.col-sender { width: 14%; }
+.col-status { width: 10%; }
+.col-date { width: 12%; }
+.col-actions { width: 12%; min-width: 120px; }
+.col-message { word-wrap: break-word; white-space: normal; }
+
+/* Table Row Highlights (Status) */
+.unread-row {
+    background-color: var(--bg-surface-hover);
+    font-weight: 600;
+}
+.unread-row td:first-child {
+    border-right: 3px solid var(--accent-primary);
+}
+.never-visited { background-color: #fff3cd; }
+.overdue { background-color: #f8d7da; }

@@ -1,0 +1,39 @@
+/* ========================================================================
+   Forms / Core / Sizing
+   ------------------------------------------------------------------------
+   Design tokens for control dimensions + the wrapper & input box model.
+   All sizing lives here so a single file controls proportions.
+   ======================================================================== */
+
+/* --------------- Tokens --------------- */
+:root {
+    --form-ctl-height:   38px;
+    --form-ctl-pad-y:    0.45rem;
+    --form-ctl-pad-x:    0.6rem;
+    --form-ctl-font-size: 0.82rem;
+    --form-label-size:   0.8rem;
+    --form-gap:          0.75rem;
+    --form-gap-sm:       0.4rem;
+}
+
+/* --------------- Wrapper (the visible „box“) --------------- */
+.custom-input-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: var(--form-ctl-height);
+    overflow: hidden;
+}
+
+/* --------------- Input / Select / Textarea base --------------- */
+.custom-input-field {
+    flex: 1 1 0;
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+    padding-block:  var(--form-ctl-pad-y);
+    padding-inline: var(--form-ctl-pad-x);
+    border: none;
+    background: transparent;
+    outline: none;
+}

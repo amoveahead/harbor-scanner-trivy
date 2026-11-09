@@ -1,0 +1,29 @@
+/* ========================================================================
+   Base: Typography & Resets
+   ======================================================================== */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family-fa);
+    direction: rtl;
+    line-height: 1.8;
+    font-size: 16px;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+    overflow-x: hidden;
+}
+
+input, button, select, textarea, optgroup {
+    font-family: inherit;
+    font-feature-settings: inherit;
+}
+
+table {
+    font-variant-numeric: tabular-nums;
+}

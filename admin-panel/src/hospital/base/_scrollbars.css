@@ -1,0 +1,52 @@
+/* ========================================================================
+   Base: Scrollbar Theming (Global)
+   - Works in Chromium/WebKit via ::-webkit-scrollbar*
+   - Works in Firefox via scrollbar-width/color
+   ======================================================================== */
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--accent-primary) 35%, var(--border)) transparent;
+}
+
+/* WebKit (Chrome/Edge/Safari) */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--accent-primary) 22%, var(--border));
+    border-radius: 999px;
+    border: 3px solid transparent; /* creates a “thin” pill */
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--accent-primary) 34%, var(--text-secondary));
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* Sidebar: Telegram-like thin scrollbar */
+.sidebar-menu {
+    scrollbar-gutter: stable;
+    overscroll-behavior: contain;
+}
+
+.sidebar-menu::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+}
+

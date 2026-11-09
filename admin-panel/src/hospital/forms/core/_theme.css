@@ -1,0 +1,38 @@
+/* ========================================================================
+   Forms / Core / Theme
+   ------------------------------------------------------------------------
+   Visual appearance — colors, borders, backgrounds, border-radius.
+   The WRAPPER is the single source of truth for the visible „box".
+   Inputs inside stay transparent so there is never a double-border.
+   ======================================================================== */
+
+/* --------------- Wrapper appearance --------------- */
+.custom-input-wrapper {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius-md);
+}
+
+/* --------------- Fieldset --------------- */
+fieldset {
+    background: var(--fieldset-bg);
+    border-color: var(--fieldset-border);
+    box-shadow: var(--shadow-sm);
+}
+
+legend {
+    background: var(--legend-bg);
+    border: 1px solid var(--legend-border);
+    color: var(--legend-text);
+}
+
+.legend-icon {
+    color: var(--legend-text);
+    stroke: var(--legend-text);
+}
+
+/* --------------- Placeholder --------------- */
+.custom-input-field::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+}

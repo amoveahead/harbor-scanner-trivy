@@ -1,0 +1,82 @@
+/* ========================================================================
+   Forms / Core / Layout
+   ------------------------------------------------------------------------
+   Structural rules only — no colors, no fonts.
+   Defines the box-model skeleton for every form primitive.
+   ======================================================================== */
+
+/* --------------- Form Field (outermost atom) --------------- */
+.form-field {
+    min-width: 0;           /* prevent grid / flex blow-out */
+}
+
+/* --------------- Form Group (label + control pair) --------------- */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+/* --------------- Label --------------- */
+.form-label {
+    display: block;
+    cursor: default;
+    user-select: none;
+}
+
+/* --------------- Fieldset & Legend --------------- */
+fieldset {
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+    margin-block-end: 1rem;
+    border-radius: var(--border-radius-lg);
+    position: relative;
+}
+
+legend {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: auto;
+    padding: 0.4rem 0.85rem;
+    margin-inline-start: -0.25rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: var(--border-radius-md);
+}
+
+.legend-icon {
+    flex-shrink: 0;
+}
+
+/* --------------- Fieldset Row (side-by-side fieldsets) --------------- */
+.fieldset-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--form-gap, 1rem);
+    align-items: start;
+}
+
+.fieldset-row > fieldset {
+    margin-block-end: 0;
+}
+
+@media (max-width: 768px) {
+    .fieldset-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --------------- Auth Field (login / register pages) --------------- */
+.auth-field {
+    margin-block-end: 1rem;
+}
+
+/* --------------- Conditional Wrapper --------------- */
+.conditional-wrapper {
+    display: none;
+}
+
+.conditional-wrapper.is-visible {
+    display: block;
+}

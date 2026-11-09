@@ -1,0 +1,102 @@
+/* ========================================================================
+   Base: Variables & Theming
+   ======================================================================== */
+
+/* -------------------------------------------------------------------------
+   Global Box Model Fix
+   ------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    /* Layout & Sizing */
+    --font-family-fa: "Vazirmatn-FD", "Tahoma", "Arial", sans-serif;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --transition-speed: 0.3s;
+    --sidebar-width: 260px;
+
+    /* Effects */
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* Light Theme (Default) */
+body:not([data-theme="dark"]) {
+    color-scheme: light; /* ✨ به مرورگر می‌گوید از UI روشن خود استفاده کند */
+    
+    --bg-main: #f4f5f7;
+    --bg-surface: #ffffff;
+    --bg-surface-hover: #eaecef;
+    --border: #e5e7eb;
+    --text-primary: #1a202c;
+    --text-secondary: #525f6f;
+    --accent-primary: #005a9c;
+    --accent-primary-hover: #004578;
+    --accent-primary-muted: rgba(0, 90, 156, 0.1);
+    --accent-text: #ffffff;
+    --form-bg: #ffffff;
+    --form-bg-focus: #ffffff;
+    --fieldset-bg: rgba(0, 90, 156, 0.05);
+    --danger: #dc3545;
+    --danger-text: #ffffff;
+    --danger-bg-subtle: rgba(220, 53, 69, 0.1);
+    --warning-bg: #fff3cd;
+    --warning-text: #664d03;
+    --warning-border: #ffecb5;
+    --accent-danger: #dc3545; /* همون رنگ danger قبلی */
+    --accent-danger-muted: rgba(220, 53, 69, 0.1); /* همون رنگ danger muted قبلی */
+    --accent-secondary: #6c757d; /* یه رنگ خاکستری خنثی برای secondary */
+    --accent-secondary-muted: rgba(108, 117, 125, 0.1);
+
+
+    /* Fieldset legend palette (blue / matching global accent) */
+    --legend-bg: rgba(0, 90, 156, 0.08);
+    --legend-border: rgba(0, 90, 156, 0.22);
+    --legend-text: #005a9c;
+    --fieldset-bg: rgba(0, 90, 156, 0.03);
+    --fieldset-border: rgba(0, 90, 156, 0.12);
+}
+
+/* Dark Theme */
+body[data-theme="dark"] {
+    color-scheme: dark; /* ✨ به مرورگر می‌گوید اسکرول‌بارها و منوهای خود را تاریک کند */
+    
+    --bg-main: #121212;
+    --bg-surface: #1e1e1e;
+    --bg-surface-hover: #2c2c2c;
+    --border: #374151;
+    --text-primary: #eaeaea;
+    --text-secondary: #a0a0a0;
+    --accent-primary: #4a90e2;
+    --accent-primary-hover: #64b5f6;
+    --accent-primary-muted: rgba(74, 144, 226, 0.15);
+    /* Secondary accent (Telegram-like orange highlight for dark mode) */
+    --accent-secondary: #ffb020;
+    --accent-secondary-muted: rgba(255, 176, 32, 0.16);
+    --accent-text: #1e1e1e;
+    --form-bg: #2c2c2c;
+    --form-bg-focus: #333333;
+    --fieldset-bg: rgba(74, 144, 226, 0.07);
+    --danger: #ff5252;
+    --danger-text: #121212;
+    --danger-bg-subtle: rgba(227, 52, 70, 0.25);
+    --warning-bg: #332701;
+    --warning-text: #ffc107;
+    --warning-border: #4d3800;
+    --accent-danger: #ef4444; /* قرمز روشن‌تر برای حالت دارک */
+    --accent-danger-muted: rgba(239, 68, 68, 0.15);
+    --accent-secondary: #6c757d; /* می‌تونه همون رنگ خاکستری بمونه یا رنگ دیگه‌ای انتخاب بشه */
+    --accent-secondary-muted: rgba(108, 117, 125, 0.15);
+
+
+    /* Fieldset legend palette (blue / matching global accent) */
+    --legend-bg: rgba(74, 144, 226, 0.1);
+    --legend-border: rgba(74, 144, 226, 0.22);
+    --legend-text: #64a8e8;
+    --fieldset-bg: rgba(74, 144, 226, 0.04);
+    --fieldset-border: rgba(74, 144, 226, 0.1);
+}

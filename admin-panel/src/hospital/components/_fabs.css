@@ -1,0 +1,68 @@
+/* ========================================================================
+   Components: Floating Action Buttons (FABs)
+   ======================================================================== */
+.floating-action-buttons {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 999;
+}
+
+.fab-button {
+    /* Dimensions & Shape */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    
+    /* Colors & Borders */
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    box-shadow: var(--shadow-md);
+    
+    /* Flexbox Alignment (Recovered) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    
+    /* Interaction */
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+}
+
+.fab-button:hover {
+    transform: translateY(-4px) scale(1.05);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    box-shadow: var(--shadow-lg);
+}
+
+@media (max-width: 992px) {
+    .floating-action-buttons {
+        right: 25px;
+        left: auto;
+    }
+}
+
+/* ========================================================================
+   Theme Toggle FAB (Icon Visibility Logic)
+   ======================================================================== */
+
+/* Hide both icons by default */
+#theme-toggle-button .icon { 
+    display: none; 
+}
+
+/* Show the Sun when NOT in dark mode */
+body:not([data-theme="dark"]) #theme-toggle-button .sun { 
+    display: flex; /* Flex ensures the SVG stays perfectly centered */
+}
+
+/* Show the Moon when IN dark mode */
+body[data-theme="dark"] #theme-toggle-button .moon { 
+    display: flex; 
+}

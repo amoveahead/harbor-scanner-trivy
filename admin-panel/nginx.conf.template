@@ -1,0 +1,25 @@
+# Filled in at container start by the nginx image (envsubst of ${API_URL}).
+server {
+    listen 80;
+    server_name _;
+    root /usr/share/nginx/html;
+
+    # The panel (static files). Pages live in the URL hash, so no fallback route.
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # The scanner API and probes. API_URL's host name is looked up again every
+    # 10 s (Docker's DNS, RESOLVER), so recreated scanners are found; with
+    # several addresses behind the name (a compose alias) nginx balances them.
+    resolver ${RESOLVER} valid=10s;
+    set $api ${API_URL};
+    location /api/ {
+        proxy_pass $api;
+        proxy_set_header Host $host;
+        proxy_read_timeout 120s;
+    }
+    location /probe/ {
+        proxy_pass $api;
+    }
+}

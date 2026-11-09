@@ -1,0 +1,19 @@
+/* ========================================================================
+   Forms / Text / Textarea
+   ------------------------------------------------------------------------
+   Overrides for <textarea> inside the standard wrapper.
+   ======================================================================== */
+
+/* Allow vertical growth — the wrapper must not clip it */
+.custom-input-wrapper:has(.custom-textarea) {
+    height: auto;
+    overflow: visible;
+    width: 100%;
+}
+
+.custom-textarea {
+    resize: vertical;
+    min-height: calc(var(--form-ctl-height) * 2);
+    line-height: 1.6;
+    padding-block: var(--form-ctl-pad-y);
+}

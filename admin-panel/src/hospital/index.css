@@ -1,0 +1,36 @@
+/* The hospital app's design system (flask_hospital_app/app/static/css),
+   the modules this panel uses, in the order of its style.css.
+   Copied as they are, except:
+   - base/_typography.css: the Vazirmatn-FD @font-face blocks are left out
+     (a Persian-digit font; the panel uses a system font, see ../panel.css).
+   - components/_tables.css: the mobile "table as cards" block is left out
+     (it needs data-label on every cell; the panel scrolls tables instead).
+   Panel-specific rules and the left-to-right fixes live in ../panel.css. */
+
+@import "./base/_variables.css";
+@import "./base/_typography.css";
+@import "./base/_scrollbars.css";
+
+@import "./layout/_structure.css";
+@import "./layout/_header.css";
+@import "./layout/_sidebar.css";
+@import "./components/_page-header.css";
+
+@import "./components/_cards.css";
+@import "./components/_tables.css";
+@import "./components/_badges.css";
+@import "./components/_alerts.css";
+@import "./components/_pagination.css";
+@import "./components/_summary-box.css";
+@import "./components/_fabs.css";
+@import "./components/buttons/_base.css";
+@import "./components/buttons/_variants.css";
+
+@import "./pages/_login.css";
+
+@import "./forms/core/_layout.css";
+@import "./forms/core/_sizing.css";
+@import "./forms/core/_theme.css";
+@import "./forms/core/_states.css";
+@import "./forms/core/_typography.css";
+@import "./forms/text/_textarea.css";

@@ -1,0 +1,214 @@
+/* ========================================================================
+   Components: Cards
+   ======================================================================== */
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;                      /* Space between header, body, footer */
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 2rem;
+    box-shadow: none;
+    overflow: visible;
+    transition: none;
+}
+
+/* --- Card Header: Dashboard-style glassmorphic bar --- */
+.card-header {
+    padding: 0.85rem 1.5rem;
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.card-header h4,
+.card-header h6,
+.card-header .fw-bold {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Override .text-primary inside header */
+.card-header .text-primary {
+    color: inherit;
+}
+
+.card-header i,
+.card-header svg {
+    color: var(--accent-primary);
+    stroke: var(--accent-primary);
+}
+
+
+
+/* --- Card Header Inner Layouts (RTL Friendly) --- */
+
+/* Container for Title (Right side in RTL) */
+.card-header-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.card-header-title h5 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+}
+
+/* Container for Actions & Search (Left side in RTL) */
+.card-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    flex: 1 1 auto;
+    justify-content: flex-end; /* Keeps items pushed to the left side */
+}
+
+/* Container for the filter/excel buttons */
+.card-header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* --- Mobile Responsiveness for Header --- */
+@media (max-width: 768px) {
+    .card-header {
+        flex-direction: column;
+        align-items: stretch; /* Stretches children to full width */
+    }
+    
+    .card-header-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .card-header-buttons {
+        width: 100%;
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .card-header-buttons .btn {
+        flex: 1; /* Makes buttons equal width on mobile */
+        justify-content: center;
+    }
+    
+    .card-header-actions form {
+        width: 100%;
+    }
+    
+    .card-header-actions .search-wrapper {
+        max-width: 100%; /* Overrides the 450px max-width on mobile */
+        width: 100%;
+    }
+}
+/* --- Card Body: glassmorphic standalone panel --- */
+.card-body--flush {
+    padding: 0;
+}
+
+.card-body {
+    padding: 1.5rem;
+
+    /* Glass background based on theme surface */
+    background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--bg-surface) 80%, transparent),
+        color-mix(in srgb, var(--bg-surface) 40%, transparent)
+    );
+
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius-lg);
+
+    /* Apple-like soft shadow */
+    box-shadow:
+        var(--shadow-md),
+        inset 0 1px 0 rgba(255,255,255,0.15);
+
+    /* Glass blur */
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+
+    transition: all var(--transition-speed) ease;
+}
+
+/* --- Tab Contents Wrapper: glassmorphic inner panel --- */
+.tab-contents-wrapper {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+body[data-theme="dark"] .tab-contents-wrapper {
+    background: rgba(30, 30, 30, 0.55);
+}
+
+/* --- Card Footer: Dashboard-style bar at the bottom --- */
+.card-footer {
+    padding: 0.85rem 1.5rem;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* Ensure the text div doesn't break the flexbox */
+.card-footer > div:first-child {
+    margin: 0;
+}
+
+/* --- Empty State: Centered placeholder for empty lists --- */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.empty-state-icon {
+    color: var(--border);
+    margin-bottom: 1rem;
+}
+
+.empty-state-icon svg {
+    width: 56px;
+    height: 56px;
+    stroke-width: 1.2;
+}
+
+.empty-state-text {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}

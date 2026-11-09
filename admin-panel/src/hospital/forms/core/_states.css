@@ -1,0 +1,65 @@
+/* ========================================================================
+   Forms / Core / States
+   ------------------------------------------------------------------------
+   Interactive & validation states — focus, hover, disabled, error.
+   ======================================================================== */
+
+/* --------------- Focus --------------- */
+.custom-input-wrapper:focus-within {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px var(--accent-primary-muted);
+    background: var(--form-bg-focus);
+}
+
+/* --------------- Hover glow --------------- */
+.custom-input-wrapper:hover:not(:focus-within) {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 8px var(--accent-primary-muted);
+}
+
+/* --------------- Disabled --------------- */
+.custom-input-field:disabled,
+.custom-input-field[readonly] {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* Dim whole wrapper ONLY when there is no toggle block inside.
+   Wrappers with a toggle must stay interactive so the checkbox works. */
+.custom-input-wrapper:has(.custom-input-field:disabled):not(:has(.custom-toggle-block)) {
+    opacity: 0.6;
+    background: var(--bg-surface-hover);
+    pointer-events: none;
+}
+
+/* When toggle IS present, only dim the input area — toggle stays active */
+.custom-input-wrapper:has(.custom-toggle-block) .custom-input-field:disabled {
+    opacity: 0.35;
+    background: var(--bg-surface-hover);
+}
+
+/* --------------- Validation error --------------- */
+.form-group.has-error .custom-input-wrapper {
+    border-color: var(--danger);
+}
+
+.form-group.has-error .custom-input-wrapper:focus-within {
+    box-shadow: 0 0 0 3px var(--danger-bg-subtle);
+}
+
+.form-group.has-error .form-label {
+    color: var(--danger);
+}
+
+/* --------------- Required asterisk --------------- */
+.text-danger {
+    color: var(--danger);
+}
+
+/* --------------- Transition --------------- */
+.custom-input-wrapper {
+    transition:
+        border-color var(--transition-speed) ease,
+        box-shadow  var(--transition-speed) ease,
+        background  var(--transition-speed) ease;
+}

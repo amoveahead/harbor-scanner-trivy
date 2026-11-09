@@ -1,0 +1,131 @@
+/* ========================================================================
+   Pages: Login (Standalone)
+   ======================================================================== */
+
+/* 1. Essential Resets (جایگزین ریست‌های بوت‌استرپ) */
+body.login-page,
+body.login-page *,
+body.login-page *::before,
+body.login-page *::after {
+    box-sizing: border-box;
+}
+
+/* 2. Page Layout */
+body.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--bg-main);
+    margin: 0;
+    font-family: var(--font-family-fa), sans-serif;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 420px;
+    padding: 2rem;
+}
+
+.login-card {
+    background-color: var(--bg-surface);
+    padding: 2.5rem;
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+}
+
+/* 3. Headers */
+.login-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.logo-organization-box {
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: color-mix(in srgb, var(--bg-surface-hover) 30%, transparent);
+    transition: all 0.3s ease;
+}
+
+body[data-theme="dark"] .logo-organization-box {
+    border-color: color-mix(in srgb, var(--border) 85%, var(--accent-primary) 15%);
+    background-color: color-mix(in srgb, var(--bg-surface-hover) 40%, color-mix(in srgb, var(--accent-primary) 5%, transparent));
+}
+
+.logo-organization-box:hover {
+    border-color: var(--accent-primary);
+    background-color: color-mix(in srgb, var(--bg-surface-hover) 45%, transparent);
+}
+
+body[data-theme="dark"] .logo-organization-box:hover {
+    border-color: color-mix(in srgb, var(--accent-primary) 85%, var(--border) 15%);
+}
+
+.logo-organization-box img {
+    max-width: 150px;
+    margin-bottom: 0.75rem;
+}
+
+.login-header h4 {
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+}
+.login-header p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.login-organization-name {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+}
+
+body[data-theme="dark"] .login-organization-name {
+    color: color-mix(in srgb, var(--text-primary) 95%, var(--accent-primary) 5%);
+}
+
+/* 4. Scoped Form Elements (بدون دست زدن به custom-input-wrapper) */
+.login-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.login-label {
+    display: block;
+    text-align: center;
+    font-size: 0.875rem; /* معادل کلاس small بوت‌استرپ */
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+/* 5. Submit Button */
+.btn-login {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1.1rem;
+    font-family: inherit;
+    border-radius: var(--border-radius-md);
+    background-color: var(--accent-primary);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.2s, transform 0.2s;
+    min-height: 42px; /* هم‌تراز با ارتفاع اینپوت‌های شما */
+    margin-top: 2rem;
+}
+
+.btn-login:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}

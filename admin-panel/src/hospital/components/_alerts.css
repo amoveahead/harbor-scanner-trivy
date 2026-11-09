@@ -1,0 +1,80 @@
+/* ========================================================================
+   Components: Alerts
+   ======================================================================== */
+.alert {
+    position: relative;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-md);
+}
+
+.alert-light,
+.alert-secondary {
+    background-color: var(--bg-surface-hover);
+    color: var(--text-secondary);
+    border-color: var(--border);
+}
+
+.alert-warning {
+    background-color: var(--warning-bg);
+    color: var(--warning-text);
+    border-color: var(--warning-border);
+}
+
+.alert-danger {
+    background-color: color-mix(in srgb, var(--danger) 15%, transparent);
+    color: var(--danger);
+    border-color: color-mix(in srgb, var(--danger) 30%, transparent);
+}
+
+
+/* ========================================================================
+   ATOMIC: Dynamic Form Errors Box (JS Generated)
+   ======================================================================== */
+
+.dynamic-form-errors {
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    /* Thick right border for RTL */
+    border-right: 4px solid var(--bs-warning, #f59e0b); 
+    
+    /* Robust slide-down animation */
+    animation: slideDownFade 0.3s ease-out forwards;
+    transform-origin: top;
+}
+
+/* The Yellow Color Theme */
+.custom-warning-box {
+    background-color: #fffbeb; 
+    color: #92400e;            
+    border: 1px solid #fde68a; 
+}
+
+/* Dark Mode Support (Matches your theme.js) */
+[data-theme="dark"] .custom-warning-box {
+    background-color: rgba(245, 158, 11, 0.1); 
+    color: #fcd34d;                            
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+/* Spacing out the list items */
+.dynamic-form-errors .error-list li {
+    margin-bottom: 0.35rem;
+    line-height: 1.6;
+}
+.dynamic-form-errors .error-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* Keyframe Animation for popping into existence */
+@keyframes slideDownFade {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px) scaleY(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+    }
+}

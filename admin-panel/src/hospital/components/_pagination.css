@@ -1,0 +1,52 @@
+/* ========================================================================
+   Components: Pagination (Bulletproof against Bootstrap)
+   ======================================================================== */
+
+.pagination-modern {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+/* By prefixing with 'nav 
+   to prioritize your custom sizing and borders over Bootstrap's defaults.
+*/
+nav .pagination-modern .page-link {
+    border: none;
+    border-radius: var(--border-radius-md);
+    color: var(--text-secondary);
+    background-color: transparent;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+nav .pagination-modern .page-item:not(.active):not(.disabled) .page-link:hover {
+    background-color: var(--bg-surface-hover);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+nav .pagination-modern .page-item.active .page-link {
+    background-color: var(--accent-primary);
+    color: var(--accent-text);
+    box-shadow: var(--shadow-md);
+}
+
+nav .pagination-modern .page-item.disabled .page-link {
+    color: var(--border);
+    cursor: default;
+    background-color: transparent;
+    opacity: 0.6;
+}

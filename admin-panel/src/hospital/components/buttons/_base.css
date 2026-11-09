@@ -1,0 +1,165 @@
+/* ========================================================================
+   Buttons: Base Core
+   ------------------------------------------------------------------------
+   Sizing and behavior synced with form inputs (.custom-input-wrapper)
+   to ensure perfect alignment in flex rows.
+   ======================================================================== */
+.btn {
+    /* Sizing synced with inputs */
+    min-height: var(--form-ctl-height);
+    padding: var(--form-ctl-pad-y) 1rem;
+    font-size: var(--form-ctl-font-size);
+    font-weight: 500;
+    font-family: var(--font-family-fa);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    line-height: 1.5;
+    text-decoration: none;
+    position: relative;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+        transform var(--transition-speed) ease,
+        background-color var(--transition-speed) ease,
+        border-color var(--transition-speed) ease,
+        box-shadow var(--transition-speed) ease,
+        color var(--transition-speed) ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: max-content;
+}
+
+/* --------------- Hover --------------- */
+.btn:hover {
+    transform: translateY(-1.5px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* --------------- Active (Pressed) --------------- */
+.btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* --------------- Disabled (Matches Inputs) --------------- */
+.btn:disabled,
+.btn.disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+    box-shadow: none;
+}
+
+/* --------------- Icon Alignment --------------- */
+.btn .feather,
+.btn svg {
+    /* Remove the margin-left completely */
+    margin-left: 0; 
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    /* transition for color/stroke changes */
+    transition: stroke var(--transition-speed) ease;
+}
+
+/* The 'gap: 0.5rem' in your .btn class already handles the spacing 
+   perfectly. If there is no <span>, the gap has no effect, 
+   and justify-content: center puts the icon in the dead middle. 
+*/
+
+/* --------------- Icon-Only Variant (Square) --------------- */
+/* Use this for buttons with ONLY an icon (like Delete/Trash) */
+.btn-icon-only {
+    padding: 0;
+    width: var(--form-ctl-height); /* Makes it a perfect square */
+    min-width: var(--form-ctl-height);
+    aspect-ratio: 1 / 1;
+}
+
+/* --------------- Mobile Behavior --------------- */
+@media (max-width: 768px) {
+    /* ONLY collapse table action buttons into squares, leave standard buttons alone */
+    .tbl-action-btn {
+        padding: 0;
+        width: var(--form-ctl-height);
+        min-width: var(--form-ctl-height);
+        gap: 0;
+    }
+    
+    .tbl-action-btn span {
+        display: none;
+    }
+}
+
+.btn span {
+    white-space: nowrap;
+}
+
+/* Table Action Buttons */
+.tbl-action-btn {
+    background: transparent;
+    border: 1px solid var(--accent-primary);
+    color: var(--accent-primary);
+    font-weight: 500;
+    font-size: var(--form-ctl-font-size);
+    border-radius: var(--border-radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: var(--form-ctl-pad-y) 1rem;
+    width: max-content;
+    min-height: var(--form-ctl-height);
+    box-shadow: none;
+    text-decoration: none;
+    transition:
+        background-color var(--transition-speed) ease,
+        border-color var(--transition-speed) ease,
+        color var(--transition-speed) ease;
+}
+.tbl-action-btn:hover,
+.tbl-action-btn:focus {
+    background: var(--accent-primary);
+    color: var(--accent-text);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 8px var(--accent-primary-muted);
+    outline: none;
+}
+.tbl-action-btn:active {
+    background: var(--accent-primary);
+    color: var(--accent-text);
+    border-color: var(--accent-primary);
+    box-shadow: none;
+}
+.tbl-action-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    pointer-events: none;
+    background: transparent;
+    color: var(--text-secondary);
+    border-color: var(--border);
+}
+.tbl-action-btn .feather,
+.tbl-action-btn svg {
+    color: var(--accent-primary);
+    stroke: var(--accent-primary);
+    fill: none;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+.tbl-action-btn:hover .feather,
+.tbl-action-btn:hover svg,
+.tbl-action-btn:focus .feather,
+.tbl-action-btn:focus svg {
+    color: var(--accent-text);
+    stroke: var(--accent-text);
+}

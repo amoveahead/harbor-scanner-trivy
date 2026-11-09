@@ -1,0 +1,564 @@
+/* Panel rules on top of the hospital design system (./hospital/index.css).
+   Only its variables are used for colours. The hospital app is right-to-left
+   Persian; the panel is left-to-right English, so the first block mirrors the
+   few direction-bound rules. */
+
+:root {
+  --font-family-fa: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.06);
+}
+
+/* ---- Left to right ---------------------------------------------------- */
+
+body {
+  direction: ltr;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.table th,
+.table td {
+  text-align: left;
+}
+
+.app-sidebar {
+  border-left: 0;
+  border-right: 1.5px solid color-mix(in srgb, var(--border) 75%, transparent);
+  transition: margin-left var(--transition-speed) ease-in-out, transform var(--transition-speed) ease-in-out;
+}
+
+body[data-theme="dark"] .app-sidebar {
+  border-right-color: color-mix(in srgb, var(--border) 65%, var(--accent-primary) 15%);
+}
+
+.app-layout.sidebar-collapsed .app-sidebar {
+  margin-right: 0;
+  margin-left: calc(-1 * var(--sidebar-width));
+}
+
+#sidebar-toggle {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+#sidebar-close-button {
+  left: auto;
+  right: 8px;
+  display: none;
+}
+
+@media (max-width: 992px) {
+  .app-sidebar {
+    right: auto;
+    left: 0;
+    transform: translateX(-100%);
+  }
+  .app-layout.sidebar-collapsed .app-sidebar {
+    margin-left: 0;
+    transform: translateX(-100%);
+  }
+  #sidebar-close-button {
+    display: flex;
+  }
+}
+
+/* ---- Layout ------------------------------------------------------------ */
+
+.app-layout {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content-area {
+  padding-bottom: 3rem;
+}
+
+.sidebar-logo-organization-box {
+  height: auto;
+}
+
+body[data-theme="dark"] .sidebar-logo-organization-box {
+  height: auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.brand .feather {
+  width: 30px;
+  height: 30px;
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.brand-name {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.brand-sub {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.app-header h1 {
+  margin: 0 auto 0 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.app-header .fab-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.user-profile-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+/* A card whose header carries a note under the title. */
+.card-note {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* Cards are spaced by their own bottom margin. */
+.card-header {
+  margin-top: 0;
+}
+
+.back {
+  margin-bottom: 1.5rem;
+}
+
+/* Card header and body are two rounded boxes with a small gap. */
+.card {
+  gap: 0.5rem;
+}
+
+/* In the hospital file .card-body comes after .card-body--flush and wins. */
+.card-body.card-body--flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+.card-body > p + p,
+.card-body > p + .table-responsive {
+  margin-top: 0.75rem;
+}
+
+.page-header .page-title-group p {
+  margin-top: 0.15rem;
+}
+
+/* ---- Tables ------------------------------------------------------------ */
+
+.table {
+  table-layout: auto;
+  font-size: 0.88rem;
+}
+
+.table th,
+.table td {
+  padding: 0.7rem 1rem;
+  vertical-align: top;
+}
+
+.table thead th {
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table.clickable tbody tr {
+  cursor: pointer;
+}
+
+.table.facts th {
+  width: 180px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  background: transparent;
+  position: static;
+}
+
+/* ---- Small things ------------------------------------------------------ */
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.small {
+  font-size: 0.8rem;
+}
+
+.muted {
+  color: var(--text-secondary);
+}
+
+.warn-text {
+  color: var(--warning-text);
+}
+
+.empty {
+  padding: 1rem 1.25rem;
+  color: var(--text-secondary);
+}
+
+.badge {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.78rem;
+}
+
+.badge-method {
+  min-width: 46px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.summary {
+  display: inline-flex;
+  gap: 0.75rem;
+  white-space: nowrap;
+}
+
+.sev {
+  display: inline-flex;
+  gap: 0.2rem;
+  align-items: baseline;
+  font-variant-numeric: tabular-nums;
+}
+
+.sev-letter {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.sev.zero {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.sev-critical:not(.zero) {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.sev-high:not(.zero) {
+  color: var(--warning-text);
+  font-weight: 700;
+}
+
+.patient-summary .summary-item {
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.patient-summary .summary-item strong {
+  white-space: nowrap;
+}
+
+.summary-note {
+  grid-column: 1 / -1;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.patient-summary .summary-item span.value {
+  font-size: 1rem;
+  font-weight: 700;
+  word-break: normal;
+}
+
+/* ---- Forms ------------------------------------------------------------- */
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: var(--form-gap);
+  align-items: end;
+}
+
+.filters .actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.console-line {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.console-line .method-select {
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.grow {
+  flex: 1;
+  min-width: 0;
+}
+
+.custom-textarea.mono {
+  font-family: var(--font-mono);
+}
+
+.alert {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ---- Pages ------------------------------------------------------------- */
+
+.login-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.login-screen .logo-organization-box .brand {
+  justify-content: center;
+}
+
+.login-note {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.answer {
+  margin-top: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+
+.answer-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface-hover);
+  font-size: 0.85rem;
+}
+
+.answer pre {
+  margin: 0;
+  padding: 1rem;
+  max-height: 520px;
+  overflow: auto;
+  background: var(--bg-main);
+  white-space: pre;
+}
+
+.pager {
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+nav .pagination-modern button.page-link {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.method-cell,
+.auth-cell {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.path-cell {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.nowrap,
+.nowrap .mono {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+/* ---- Harbor / Trivy / Temporal look ------------------------------------
+   The hospital structure stays; the colours move to Harbor's Clarity navy and
+   blue, Trivy's teal as the second accent, and Temporal's flat, crisp
+   surfaces: no doodle background, no gradients, thin borders. The selectors
+   match the hospital ones (body[data-theme...]) so these come later and win. */
+
+body[data-theme="dark"] {
+  --bg-main: #121c22;
+  --bg-surface: #1b2a32;
+  --bg-surface-hover: #243843;
+  --border: #2f4350;
+  --text-primary: #e6edf1;
+  --text-secondary: #9fb1bc;
+  --accent-primary: #49afd9;
+  --accent-primary-hover: #7cc6e6;
+  --accent-primary-muted: rgba(73, 175, 217, 0.16);
+  --accent-text: #0b1418;
+  --accent-secondary: #1cc8c8;
+  --accent-secondary-muted: rgba(28, 200, 200, 0.16);
+  --form-bg: #15222a;
+  --form-bg-focus: #172630;
+  --fieldset-bg: rgba(73, 175, 217, 0.05);
+  --danger: #f2766b;
+  --warning-bg: rgba(245, 193, 80, 0.1);
+  --warning-text: #f5c150;
+  --warning-border: rgba(245, 193, 80, 0.25);
+  --header-bg: #0d151a;
+  --sidebar-bg: #16232a;
+}
+
+body:not([data-theme="dark"]) {
+  --bg-main: #f3f5f7;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #eef2f5;
+  --border: #dbe1e6;
+  --text-primary: #1b2a32;
+  --text-secondary: #5b6b75;
+  --accent-primary: #0072a3;
+  --accent-primary-hover: #005a82;
+  --accent-primary-muted: rgba(0, 114, 163, 0.12);
+  --accent-text: #ffffff;
+  --accent-secondary: #0e9e9e;
+  --accent-secondary-muted: rgba(14, 158, 158, 0.12);
+  --fieldset-bg: rgba(0, 114, 163, 0.04);
+  --danger: #c92100;
+  --warning-text: #8a5a00;
+  --header-bg: #1b2a32;
+  --sidebar-bg: #ffffff;
+}
+
+body[data-theme] {
+  --shadow-md: 0 1px 2px rgb(0 0 0 / 0.08);
+  background: var(--bg-main);
+}
+
+/* Header: Harbor's navy bar in both themes. */
+body[data-theme] .app-header {
+  background: var(--header-bg);
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent-primary) 25%, transparent);
+  box-shadow: none;
+  backdrop-filter: none;
+  color: #e6edf1;
+}
+
+body[data-theme] .app-header h1 {
+  color: #e6edf1;
+}
+
+body[data-theme] #sidebar-toggle,
+body[data-theme] .app-header .fab-button {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #cfdbe2;
+}
+
+body[data-theme] #sidebar-toggle:hover,
+body[data-theme] .app-header .fab-button:hover {
+  border-color: var(--accent-secondary);
+  color: var(--accent-secondary);
+}
+
+/* Sidebar: flat, like Harbor's vertical nav. */
+body[data-theme] .app-sidebar {
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+body[data-theme] .sidebar-logo-organization-box,
+body[data-theme] .user-profile-box {
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+body[data-theme] .sidebar-logo-organization-box:hover {
+  transform: none;
+}
+
+body[data-theme] .sidebar-menu li a:hover {
+  background: var(--bg-surface-hover);
+  box-shadow: none;
+}
+
+body[data-theme] .sidebar-menu li a.active {
+  background: var(--accent-primary-muted);
+  color: var(--text-primary);
+  box-shadow: none;
+}
+
+body[data-theme] .sidebar-menu li a.active::before {
+  background: var(--accent-primary);
+}
+
+/* Cards, page header and summary: flat surfaces, all corners rounded. */
+body[data-theme] .page-header,
+body[data-theme] .card-header,
+body[data-theme] .card-body,
+body[data-theme] .patient-summary {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+body[data-theme] .summary-item {
+  background: var(--bg-main);
+}
+
+/* Hover glow, as the hospital summary items have. */
+body[data-theme] .page-header:hover,
+body[data-theme] .patient-summary:hover,
+body[data-theme] .card:hover > .card-header,
+body[data-theme] .card:hover > .card-body {
+  border-color: color-mix(in srgb, var(--accent-primary) 55%, var(--border));
+  box-shadow:
+    0 0 0 1px var(--accent-primary-muted),
+    0 0 18px var(--accent-primary-muted);
+}
+
+body[data-theme] .table thead th {
+  background: var(--bg-surface-hover);
+}
+
+.login-card {
+  border-top: 3px solid var(--accent-secondary);
+}
