@@ -1,0 +1,110 @@
+---
+# The v2 direct scan service with its admin panel: MongoDB 7, Redis (for the
+# Harbor adapter), two scanner replicas and the panel. Usage:
+#   cp .env.example .env    # fill it in; mode 0600; never commit it
+#   docker compose up -d
+# The panel (and the API at /api/v2) is at http://127.0.0.1:${ADMIN_PORT}.
+# Everything that differs per installation comes from .env (see .env.example).
+
+x-scanner: &scanner
+  image: harbor-scanner-trivy:v2
+  build:
+    context: ../../..
+    args:
+      GOPROXY: ${GOPROXY:-https://proxy.golang.org,direct}
+  user: "10000:10000"                  # the image's non-root "scanner" user
+  stop_grace_period: 45s               # longer than SCANNER_SHUTDOWN_GRACE (30s)
+  dns: ${SCANNER_DNS:-}                # optional; empty uses Docker's default
+  mem_limit: ${SCANNER_MEM_LIMIT:-5g}
+  healthcheck:
+    test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/probe/ready"]
+    interval: 15s
+    timeout: 5s
+    start_period: 10m                  # the first DB download can take minutes
+    retries: 3
+  depends_on:
+    - mongo
+    - redis
+  restart: unless-stopped
+
+x-scanner-env: &scanner-env
+  SCANNER_V2_API_ENABLED: "true"
+  SCANNER_V2_AUTH_TOKEN: ${SCANNER_V2_AUTH_TOKEN:?set SCANNER_V2_AUTH_TOKEN in .env}
+  SCANNER_MONGO_URI: mongodb://${MONGO_USER:?set MONGO_USER in .env}:${MONGO_PASSWORD:?set MONGO_PASSWORD in .env}@mongo:27017/scanner?authSource=admin&w=majority&readConcernLevel=majority
+  SCANNER_MONGO_DB: scanner
+  SCANNER_REDIS_URL: redis://redis:6379
+  SCANNER_REGISTRY_URL: ${SCANNER_REGISTRY_URL:?set SCANNER_REGISTRY_URL in .env}
+  SCANNER_REGISTRY_USERNAME: ${SCANNER_REGISTRY_USERNAME:-}
+  SCANNER_REGISTRY_PASSWORD: ${SCANNER_REGISTRY_PASSWORD:-}
+  SCANNER_DB_SOURCES: ${SCANNER_DB_SOURCES:?set SCANNER_DB_SOURCES in .env}
+  SCANNER_JAVA_DB_SOURCES: ${SCANNER_JAVA_DB_SOURCES:-}
+  SCANNER_TRIVY_DB_REPOSITORY: ${SCANNER_TRIVY_DB_REPOSITORY:-}
+  SCANNER_TRIVY_JAVA_DB_REPOSITORY: ${SCANNER_TRIVY_JAVA_DB_REPOSITORY:-}
+  SCANNER_QUEUE_WORKERS: ${SCANNER_QUEUE_WORKERS:-2}
+  SCANNER_V2_WORKER_CACHE_BACKEND: ${SCANNER_V2_WORKER_CACHE_BACKEND:-fs}
+  SCANNER_DB_CHECK_INTERVAL: ${SCANNER_DB_CHECK_INTERVAL:-3h}
+  SCANNER_SHUTDOWN_GRACE: 30s
+
+services:
+  scanner-1:
+    <<: *scanner
+    environment:
+      <<: *scanner-env
+      SCANNER_INSTANCE_ID: scanner-1     # explicit: keeps its DB state across container recreation
+    volumes:
+      - scanner-1-cache:/home/scanner/.cache   # local SSD: v1's Trivy cache and SCANNER_V2_CACHE_DIR
+    networks:
+      scan:
+        aliases: [scanner]               # the panel balances /api/ over this name
+
+  scanner-2:
+    <<: *scanner
+    environment:
+      <<: *scanner-env
+      SCANNER_INSTANCE_ID: scanner-2
+    volumes:
+      - scanner-2-cache:/home/scanner/.cache
+    networks:
+      scan:
+        aliases: [scanner]
+
+  admin:
+    image: harbor-scanner-admin:v2
+    build: ../../../admin-panel
+    environment:
+      API_URL: http://scanner:8080
+    ports:
+      - "${ADMIN_BIND:-127.0.0.1}:${ADMIN_PORT:-8088}:80"
+    depends_on:
+      - scanner-1
+      - scanner-2
+    networks: [scan]
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    command: ["--auth"]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    ulimits:
+      nofile:
+        soft: 64000
+        hard: 64000
+    volumes:
+      - mongo-data:/data/db
+    networks: [scan]
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    networks: [scan]
+    restart: unless-stopped
+
+volumes:
+  scanner-1-cache:
+  scanner-2-cache:
+  mongo-data:
+
+networks:
+  scan:
